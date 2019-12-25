@@ -1,0 +1,41 @@
+/* 设置窗口高度为全屏 */
+div#root{
+  height: 100%;
+}
+
+section.ant-layout.ant-layout-has-sider{
+  height: 100%;
+}
+
+/* 设置左侧导航栏的隐藏按钮 */
+.anticon.anticon-menu-fold.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.anticon.anticon-menu-fold.trigger:hover {
+  color: #1890ff;
+}
+
+.anticon.anticon-menu-unfold.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.anticon.anticon-menu-unfold.trigger:hover {
+  color: #1890ff;
+}
+
+/* 设置导航栏的图标 */
+.ant-layout-sider-children .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
