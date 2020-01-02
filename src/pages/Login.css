@@ -1,0 +1,22 @@
+div#root{
+    height: 100%;
+    background-color: rgb(232,234,237);
+}
+
+div.login-pannel{
+    height: 100%;
+}
+
+.ant-row-flex.ant-row-flex-space-around.ant-row-flex-middle{
+    height: 100%;
+}
+
+.ant-col{
+    border: 0.5px;
+    border-radius: 10px;
+    background-color: rgb(250,250,250);
+}
+
+.ant-form.ant-form-horizontal.login-form{
+    margin: 10% 10%;
+}

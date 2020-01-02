@@ -39,3 +39,26 @@ section.ant-layout.ant-layout-has-sider{
   margin: 16px;
 }
 
+.anticon.logout {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.anticon.logout:hover {
+  color: #1890ff;
+}
+
+.anticon.bell {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.anticon.bell:hover {
+  color: #1890ff;
+}
