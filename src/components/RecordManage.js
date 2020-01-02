@@ -1,27 +1,32 @@
 import React from 'react';
-import {Modal, Button, Icon, Input, Row, Col, List, Card} from 'antd';
+import {Modal, Button, Icon, Input, Row, Col, List, Card, Pagination } from 'antd';
 
-import "./UserManage.css";
+import "./RecordManage.css";
+
 const { Search } = Input;
+const { Meta } = Card;
 
 const data = [
     {
         title: 'Title 1',
-    },
-    {
+    },{
         title: 'Title 2',
-    },
-    {
+    },{
         title: 'Title 3',
-    },
-    {
+    },{
         title: 'Title 4',
-    },
-    {
+    },{
         title: 'Title 5',
-    },
-    {
+    },{
         title: 'Title 6',
+    },{
+        title: 'Title 7',
+    },{
+        title: 'Title 8',
+    },{
+        title: 'Title 9',
+    },{
+        title: 'Title 10',
     },
 ];
 
@@ -81,16 +86,25 @@ class RecordManage extends React.Component {
                         <p>some contents...</p>
                     </Modal>
                 </div>
-                <div className="table-container" style={{ padding: "10px 0px 0px 0px", height: "100%" }}>
+                <div className="record" style={{ padding: "10px 0px 0px 0px", height: "100%" }}>
                     <List
                         grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
                         dataSource={data}
                         renderItem={item => (
                             <List.Item>
-                                <Card title={item.title}>Card content</Card>
+                                <Card hoverable
+                                      style={{ width: 180, height: 240 }}
+                                      cover={
+                                          <img alt="Record" height={180} width={100} src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
+                                      }>
+                                    <Meta title="Europe Street beat" description="www.instagram.com" />
+                                </Card>
                             </List.Item>
                         )}
                     />
+                    <div className="pagination">
+                        <Pagination size="small" total={500} />
+                    </div>
                 </div>
             </div>
         );

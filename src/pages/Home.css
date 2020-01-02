@@ -62,3 +62,8 @@ section.ant-layout.ant-layout-has-sider{
 .anticon.bell:hover {
   color: #1890ff;
 }
+
+
+.ant-layout-footer{
+  padding: 10px 25px;
+}

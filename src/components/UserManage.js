@@ -194,6 +194,10 @@ class UserManage extends React.Component {
                         style={{ height: "100%" }}
                         columns={this.columns}
                         dataSource={data}
+                        pagination={{
+                            size: "small",
+                            total: 500
+                        }}
                     />
                 </div>
             </div>
