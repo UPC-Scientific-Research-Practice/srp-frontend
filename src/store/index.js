@@ -39,6 +39,55 @@ class Store {
         this.token = "";
     }
 
+    // 病人数据
+    @observable patient = [];
+    @action addPatient(patient){
+        this.patient = patient;
+    }
+
+    @observable patientBasic = [];
+    @action addPatientBasic(patientBasic){
+        this.patientBasic = patientBasic;
+    }
+    // ct数据
+    @observable ct = [];
+    @action addData(ct){
+        this.ct = ct;
+    }
+    // 病历数据
+    @observable record = [];
+    @action addRecord(record){
+        this.record = record;
+    }
+
+    // check
+    @observable check = [];
+    @action add(check){
+        this.check.push(check);
+    }
+    @action remove(check){
+        this.check.forEach((item, index) => {
+            if(item === check){
+                const temp = this.check.slice();
+                temp.splice(index, 1);
+                this.check = temp;
+            }
+        })
+    }
+    @action addOrRemove(check){
+        let flag = false;
+        this.check.forEach((item, index) => {
+            if(item.id === check.id){
+                flag = true;
+                const temp = this.check.slice();
+                temp.splice(index, 1);
+                this.check = temp;
+            }
+        });
+        if(flag === false){
+            this.check.push(check);
+        }
+    }
 }
 
 const store = new Store();

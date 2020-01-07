@@ -1,0 +1,16 @@
+.ant-col{
+    background-color: rgb(255,255,255) !important;
+}
+
+.ant-card-body{
+    padding: 10px 20px;
+}
+
+div.pagination{
+    /*padding: 10px 10px 15px 10px;*/
+    height: 40px;
+}
+
+ul.ant-pagination.mini{
+    float: right;
+}

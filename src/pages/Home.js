@@ -3,14 +3,16 @@ import React from 'react';
 // 导入ant-design
 import { Layout, Menu, Icon } from 'antd';
 // 导入 mobx
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import store from "../store";
 // 导入css文件
 import 'antd/dist/antd.css';
 import "./Home.css"
 // 导入自定义组件
 import UserManage from "../components/UserManage";
+import CTManage from "../components/CTManage";
 import RecordManage from "../components/RecordManage";
+import ExportManage from "../components/ExportManage"
 // 初始化定义常量
 const { Header, Content, Sider, Footer } = Layout;
 const { SubMenu } = Menu;
@@ -25,13 +27,16 @@ let showContent = (idx) => {
     case 2:
       return (<RecordManage />);
     case 3:
-      break;
+      return (<CTManage />);
+    case 4:
+      return (<ExportManage />)
     default:
       break;
   }
 };
 
 @inject("store")
+@observer
 class Home extends React.Component {
   state = {
     collapsed: false,
@@ -68,11 +73,11 @@ class Home extends React.Component {
             <SubMenu key="case-man" title={
                 <span>
                   <Icon type="video-camera" />
-                  <span>病例管理</span>
+                  <span>病历管理</span>
                 </span>
               }>
-              <Menu.Item key="2">添加病例</Menu.Item>
-              <Menu.Item key="3">查询病例</Menu.Item>
+              <Menu.Item key="2">病历列表</Menu.Item>
+              <Menu.Item key="3">CT列表</Menu.Item>
             </SubMenu>
             <Menu.Item key="4">
               <Icon type="upload" />
