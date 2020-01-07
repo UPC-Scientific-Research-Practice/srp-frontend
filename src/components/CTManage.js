@@ -45,22 +45,6 @@ class CTManage extends React.Component {
         this.getPatientList();
     }
 
-    // 处理操作请求，例如：编辑，删除，查看
-    operation(record, action){
-        switch (action) {
-            case "edit":
-                console.log("Edit");
-                break;
-            case "delete":
-                console.log("Delete");
-                break;
-            case "view":
-                console.log("View");
-                break;
-            default:
-                break;
-        }
-    }
     // 弹出修改，查看框
     setModalVisible(modalVisible) {
         this.setState({ modalVisible });
@@ -121,6 +105,7 @@ class CTManage extends React.Component {
 
     submit = () => {
         let {store} = this.props;
+        console.log(store.check);
         if(store.check.length <= 0){
             alert("请选择下载文件");
         }else if(store.check.length > 1){
