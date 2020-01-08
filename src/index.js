@@ -8,6 +8,10 @@ import './index.css';
 // 导入路由
 import BasicRoute from './router/router';
 import store from "./store";
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+
 
 ReactDOM.render(
     <Provider store={store}>

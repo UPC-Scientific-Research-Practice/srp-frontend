@@ -16,7 +16,7 @@ class ExportManage extends React.Component {
 
     async getPatientList(){
         let response = await getBasicInfo(null);
-        if(response.code !== null && response.code === 200){
+        if(response != null && response.code !== null && response.code === 200){
             this.setState({patientList: response.data});
         }
     }

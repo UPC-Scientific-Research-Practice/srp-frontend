@@ -1,74 +1,64 @@
 import React from 'react';
-import { Modal, Button, Divider, Table, Icon, Input, Row, Col, Form } from 'antd';
+import { Modal, Button, Table, Icon, Input, Row, Col, Form, Select, DatePicker } from 'antd';
 
 import "./UserManage.css";
 import {inject, observer} from "mobx-react";
 
+import moment from "moment";
+
 import {getBasicInfo, addBasicInfo, editBasicInfo} from "../api";
 const { Search } = Input;
+const {Option} = Select;
 
 @inject("store")
 @observer
 class UserManage extends React.Component {
     state = {
-        modalVisible: false,
-        editVisible: false,
-        tempBasic: {
-            xingming: "", no: "", hunyin: "", xingbie: "", nianling: "", chushengdi: "", minzu: "", zhiye: ""
-        },
-        editBasic: {
-            xingming: "", no: "", hunyin: "", xingbie: "", nianling: "", chushengdi: "", minzu: "", zhiye: ""
+        addOrUpdate: "add",
+        visible: false,
+        basic: {
+            fenzhongxin: "", zhuyuanhao: "", xingming: "", zhuyuancishu: "", xingbie: "男",
+            nianling: "", chushengriqi: "", guoji: "", jiguan: "", minzu: "",
+            shenfenzhenghao: "", zhiye:"", zhuzhi:"", lianxidianhua:""
         }
     };
 
     columns = [
         {
-            title: '姓名',
-            dataIndex: 'xingming',
-            key: 'xingming',
-            ellipsis: true,
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            render: (text, record) => (<a onClick={() => this.operation(record, "view")}>{text}</a>),
+            title: '姓名', dataIndex: 'xingming', key: 'xingming', ellipsis: true, fixed: "left",width: 100
         },{
-            title: '年龄',
-            dataIndex: 'nianling',
-            key: 'nianling',
+            title: '分中心', dataIndex: 'fenzhongxin', key: 'fenzhongxin', ellipsis: true,
         },{
-            title: '性别',
-            dataIndex: 'xingbie',
-            key: 'xingbie',
-            ellipsis: true,
+            title: '住院号', dataIndex: 'zhuyuanhao', key: 'zhuyuanhao', ellipsis: true,
         },{
-             title: '民族',
-             key: 'minzu',
-             dataIndex: 'minzu',
-             ellipsis: true
+            title: '住院次数', dataIndex: 'zhuyuancishu', key: 'zhuyuancishu', ellipsis: true,
         },{
-             title: '婚姻',
-             dataIndex: 'hunyin',
-             key: 'hunyin',
-             ellipsis: true,
+            title: '性别', dataIndex: 'xingbie', key: 'xingbie', ellipsis: true,
         },{
-             title: '出生地',
-             dataIndex: 'chushengdi',
-             key: 'chushengdi',
-             ellipsis: true,
+            title: '年龄', dataIndex: 'nianling', key: 'nianling', ellipsis: true,
         },{
-             title: '职业',
-             dataIndex: 'zhiye',
-             key: 'zhiye',
-             ellipsis: true,
+            title: '出生日期', dataIndex: 'chushengriqi', key: 'chushengriqi', ellipsis: true,
         },{
-            title: '操作',
-            key: 'action',
+            title: '国籍', dataIndex: 'guoji', key: 'guoji', ellipsis: true,
+        },{
+            title: '籍贯', dataIndex: 'jiguan', key: 'jiguan', ellipsis: true,
+        },{
+            title: '民族', key: 'minzu', dataIndex: 'minzu', ellipsis: true
+        },{
+            title: '身份证号', dataIndex: 'shenfenzhenghao', key: 'shenfenzhenghao', ellipsis: true,
+        },{
+            title: '职业', dataIndex: 'zhiye', key: 'zhiye', ellipsis: true,
+        },{
+            title: '住址', dataIndex: 'zhuzhi', key: 'zhuzhi', ellipsis: true,
+        },{
+            title: '联系电话', dataIndex: 'lianxidianhua', key: 'lianxidianhua', ellipsis: true,
+        },{
+            title: '操作', key: 'action', fixed: "right",width: 100,
             render: (text, record) => (
                 <span>
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a onClick={()=>{this.operation(record, "edit")}}>修改</a>
-                <Divider type="vertical" />
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a onClick={()=>{this.operation(record, "delete")}}>删除</a>
-            </span>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a onClick={()=>{this.operation(record, "edit")}}>修改</a>
+                </span>
             ),
         },
     ];
@@ -77,17 +67,8 @@ class UserManage extends React.Component {
     operation(record, action){
         switch (action) {
             case "edit":
-                this.setState({editVisible: true});
-                this.setState({editBasic: record});
-                console.log("record: "+record.xingming);
-                console.log("state: "+this.state.editBasic.xingming);
+                this.setState({addOrUpdate: "edit", visible: true, basic: record});
                 this.forceUpdate();
-                break;
-            case "delete":
-                console.log("Delete");
-                break;
-            case "view":
-                console.log("View");
                 break;
             default:
                 break;
@@ -98,11 +79,30 @@ class UserManage extends React.Component {
     async getBasicInfo(data){
         let {store} = this.props;
         let response = await getBasicInfo(data);
-        if(response.code != null && response.code === 200){
-            console.log(response);
+        if(response != null && response.code != null && response.code === 200){
             store.addPatientBasic(response.data);
         }else{
             console.log("获取病人基础信息失败");
+        }
+    }
+    // 添加病人
+    async addPatient(){
+        let response = await addBasicInfo(this.state.temp);
+        if(response != null && response.code != null && response.code === 200){
+            alert("添加数据成功");
+        }else{
+            console.log("添加数据失败");
+            alert("添加数据失败");
+        }
+    }
+    // 编辑病人基本信息
+    async editBasicInfo(){
+        console.log(this.state.editBasic);
+        let response = await editBasicInfo(this.state.editBasic);
+        if(response != null && response.code !== null && response.code===200){
+            alert("修改成功")
+        }else{
+            alert("修改失败");
         }
     }
 
@@ -113,32 +113,22 @@ class UserManage extends React.Component {
 
     // 监听表单值得改变
     handleChange = (key, event) => {
-        let form = this.state.tempBasic;
-        for (let item in this.state.tempBasic) {
+        let form = this.state.basic;
+        for (let item in this.state.basic) {
             if (item === key) {
                 form[item] = event.target.value;
-                this.setState({tempBasic: form})
-            }
-        }
-    };
-    editChange = (key, event) => {
-        let form = this.state.editBasic;
-        for (let item in this.state.editBasic) {
-            if (item === key) {
-                form[item] = event.target.value;
-                this.setState({editBasic: form})
+                this.setState({basic: form})
             }
         }
     };
 
-    // 添加病人
-    async addPatient(){
-        let response = await addBasicInfo(this.state.temp);
-        if(response.code != null && response.code === 200){
-            alert("添加数据成功");
-        }else{
-            console.log("添加数据失败");
-            alert("添加数据失败");
+    // 添加或者修改病人基本信息
+    addOrUpload = () => {
+        if(this.state.addOrUpdate ===  "add"){
+            this.addPatient();
+        }
+        if(this.state.addOrUpdate ===  "edit"){
+            this.editBasicInfo();
         }
     }
 
@@ -153,17 +143,6 @@ class UserManage extends React.Component {
         console.log(store.patientBasic);
     };
 
-    async editBasicInfo(){
-        console.log(this.state.editBasic);
-        let response = await editBasicInfo(this.state.editBasic);
-        console.log(response);
-        if(response.code !== null && response.code===200){
-            alert("修改成功")
-        }else{
-            alert("修改失败");
-        }
-    }
-
     // 分页
     pagination(page){
         console.log(page);
@@ -176,7 +155,7 @@ class UserManage extends React.Component {
                 <div className="button-header">
                     <Row>
                         <Col xs={1}>
-                            <Button type="primary" style={{padding: "0px 5px"}} onClick={() => this.setState({modalVisible: true})}>
+                            <Button type="primary" style={{padding: "0px 5px"}} onClick={() => this.setState({visible: true, addOrUpdate: "add"})}>
                                 <Icon type="plus" />添加
                             </Button>
                         </Col>
@@ -184,67 +163,83 @@ class UserManage extends React.Component {
                             <Search placeholder="input search text" onSearch={value => this.search(value)} enterButton onChange={event => this.search(event.target.value)} />
                         </Col>
                     </Row>
-                    <Modal title="添加病人信息"
+                    <Modal title="添加/编辑病人信息"
+                           width={920}
                            centered
-                           visible={this.state.modalVisible}
-                           onOk={() => {this.setState({modalVisible: false}); this.addPatient()}}
-                           onCancel={() => {this.setState({modalVisible: false, tempBasic: {}});}}>
+                           visible={this.state.visible}
+                           onOk={() => {this.setState({visible: false}); this.addOrUpload()}}
+                           onCancel={() => {this.setState({visible: false, basic: {}});}}>
                         <Form layout="inline">
-                            <Form.Item label="姓  名" hasFeedback>
-                                <Input allowClear placeholder="姓名" required value={this.state.tempBasic.xingming} onChange={this.handleChange.bind(this, "xingming")} />
+                            <Form.Item label="分中心" hasFeedback>
+                                <Input allowClear placeholder="分中心" required value={this.state.basic.fenzhongxin} onChange={this.handleChange.bind(this, "fenzhongxin")} />
                             </Form.Item>
                             <Form.Item label="住院号" hasFeedback>
-                                <Input allowClear placeholder="住院号" required value={this.state.tempBasic.no} onChange={this.handleChange.bind(this, "no")} />
+                                <Input allowClear placeholder="住院号" required value={this.state.basic.zhuyuanhao} onChange={this.handleChange.bind(this, "zhuyuanhao")} />
                             </Form.Item>
-                            <Form.Item label="年  龄" hasFeedback>
-                                <Input allowClear placeholder="年龄" value={this.state.tempBasic.nianling} onChange={this.handleChange.bind(this, "nianling")} />
+                            <Form.Item label="姓名" hasFeedback>
+                                <Input allowClear placeholder="姓名" required value={this.state.basic.xingming} onChange={this.handleChange.bind(this, "xingming")} />
                             </Form.Item>
-                            <Form.Item label="性  别" hasFeedback>
-                                <Input allowClear placeholder="性别" value={this.state.tempBasic.xingbie} onChange={this.handleChange.bind(this, "xingbie")} />
+                            <Form.Item label="住院次数" hasFeedback>
+                                <Input allowClear placeholder="住院次数" value={this.state.basic.zhuyuancishu} onChange={this.handleChange.bind(this, "zhuyuancishu")} />
                             </Form.Item>
-                            <Form.Item label="民  族" hasFeedback>
-                                <Input allowClear placeholder="民族" value={this.state.tempBasic.minzu} onChange={this.handleChange.bind(this, "minzu")} />
+                            <Form.Item label="性别" hasFeedback>
+                                <Select placeholder="性别" onChange={(value) => {
+                                    let form = this.state.basic;
+                                    form["xingbie"] = value;
+                                    this.setState({basic: form});
+                                }} >
+                                    <Option value="男">男</Option>
+                                    <Option value="女">女</Option>
+                                </Select>
                             </Form.Item>
-                            <Form.Item label="婚  姻" hasFeedback>
-                                <Input allowClear placeholder="婚姻" value={this.state.tempBasic.hunyin} onChange={this.handleChange.bind(this, "hunyin")} />
+                            <Form.Item label="年龄" hasFeedback>
+                                <Input allowClear placeholder="年龄" value={this.state.basic.nianling} onChange={this.handleChange.bind(this, "nianling")} />
                             </Form.Item>
-                            <Form.Item label="出生地" hasFeedback>
-                                <Input allowClear placeholder="出生地" value={this.state.tempBasic.chushengdi} onChange={this.handleChange.bind(this, "chushengdi")} />
+                            <Form.Item label="出生日期" hasFeedback>
+                                <DatePicker
+                                    value={this.state.basic.chushengriqi!==""?moment(this.state.basic.chushengriqi, "YYYYMMDD"): null}
+                                    onChange={(value) => {
+                                        let form = this.state.basic;
+                                        form["chushengriqi"] = value;
+                                        this.setState({basic: form});
+                                    }
+                                }/>
                             </Form.Item>
-                            <Form.Item label="职  业" hasFeedback>
-                                <Input allowClear placeholder="职业" value={this.state.tempBasic.zhiye} onChange={this.handleChange.bind(this, "zhiye")} />
+                            <Form.Item label="国籍" hasFeedback>
+                                <Input allowClear placeholder="国籍" value={this.state.basic.guoji} onChange={this.handleChange.bind(this, "guoji")} />
                             </Form.Item>
-                        </Form>
-                    </Modal>
-                    <Modal title="编辑病人信息"
-                           centered
-                           visible={this.state.editVisible}
-                           onOk={() => {this.setState({editVisible: false}); this.editBasicInfo()}}
-                           onCancel={() => {this.setState({editVisible: false})}}>
-                        <Form layout="inline">
-                            <Form.Item label="姓  名" hasFeedback>
-                                <Input allowClear placeholder="姓名" required value={this.state.editBasic.xingming} onChange={this.editChange.bind(this, "xingming")} />
+                            <Form.Item label="籍贯" hasFeedback>
+                                <Input allowClear placeholder="籍贯" value={this.state.basic.jiguan} onChange={this.handleChange.bind(this, "jiguan")} />
                             </Form.Item>
-                            <Form.Item label="住院号" hasFeedback>
-                                <Input allowClear placeholder="住院号" disabled value={this.state.editBasic.no} onChange={this.editChange.bind(this, "no")}/>
+                            <Form.Item label="民族" hasFeedback>
+                                <Input allowClear placeholder="民族" value={this.state.basic.minzu} onChange={this.handleChange.bind(this, "minzu")} />
                             </Form.Item>
-                            <Form.Item label="年  龄" hasFeedback>
-                                <Input allowClear placeholder="年龄" value={this.state.editBasic.nianling} onChange={this.editChange.bind(this, "nianling")} />
+                            <Form.Item label="身份证号" hasFeedback>
+                                <Input allowClear placeholder="身份证号" required value={this.state.basic.shenfenzhenghao} onChange={(event) => {
+                                        let form = this.state.basic;
+                                        form["shenfenzhenghao"] = event.target.value;
+                                        let str = event.target.value;
+                                        if(str.length >= 14){
+                                            let birth = str.slice(6, 10);
+                                            let birthday = str.slice(6, 14);
+                                            let date = new Date();
+                                            let year = date.getFullYear();
+                                            form["nianling"] = year - birth;
+                                            form["chushengriqi"] = birthday;
+                                        }
+                                        this.setState({basic: form});
+                                        console.log(this.state.basic.chushengriqi)
+                                    }
+                                } />
                             </Form.Item>
-                            <Form.Item label="性  别" hasFeedback>
-                                <Input allowClear placeholder="性别" value={this.state.editBasic.xingbie} onChange={this.editChange.bind(this, "xingbie")} />
+                            <Form.Item label="职业" hasFeedback>
+                                <Input allowClear placeholder="职业" value={this.state.basic.zhiye} onChange={this.handleChange.bind(this, "zhiye")} />
                             </Form.Item>
-                            <Form.Item label="民  族" hasFeedback>
-                                <Input allowClear placeholder="民族" value={this.state.editBasic.minzu} onChange={this.editChange.bind(this, "minzu")} />
+                            <Form.Item label="住址" hasFeedback>
+                                <Input allowClear placeholder="住址" value={this.state.basic.zhuzhi} onChange={this.handleChange.bind(this, "zhuzhi")} />
                             </Form.Item>
-                            <Form.Item label="婚  姻" hasFeedback>
-                                <Input allowClear placeholder="婚姻" value={this.state.editBasic.hunyin} onChange={this.editChange.bind(this, "hunyin")} />
-                            </Form.Item>
-                            <Form.Item label="出生地" hasFeedback>
-                                <Input allowClear placeholder="出生地" value={this.state.editBasic.chushengdi} onChange={this.editChange.bind(this, "chushengdi")} />
-                            </Form.Item>
-                            <Form.Item label="职  业" hasFeedback>
-                                <Input allowClear placeholder="职业" value={this.state.editBasic.zhiye} onChange={this.editChange.bind(this, "zhiye")} />
+                            <Form.Item label="联系电话" hasFeedback>
+                                <Input allowClear placeholder="联系电话" value={this.state.basic.lianxidianhua} onChange={this.handleChange.bind(this, "lianxidianhua")} />
                             </Form.Item>
                         </Form>
                     </Modal>
@@ -257,6 +252,7 @@ class UserManage extends React.Component {
                         style={{ height: "100%" }}
                         columns={this.columns}
                         dataSource={store.patientBasic}
+                        scroll={{ x: 1500 }}
                         pagination={{
                             size: "small",
                             total: 500

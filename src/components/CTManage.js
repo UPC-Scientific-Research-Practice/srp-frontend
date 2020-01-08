@@ -25,7 +25,7 @@ class CTManage extends React.Component {
     async getCT(data){
         let {store} = this.props;
         let response = await CTview(data);
-        if(response.code === 200){
+        if(response != null && response.code === 200){
             console.log(response.data);
             store.addData(response.data);
         }else{
@@ -35,7 +35,7 @@ class CTManage extends React.Component {
 
     async getPatientList(){
         let response = await getBasicInfo(null);
-        if(response.code !== null && response.code === 200){
+        if(response != null && response.code !== null && response.code === 200){
             this.setState({patientList: response.data});
         }
     }
@@ -84,8 +84,7 @@ class CTManage extends React.Component {
 
     async upload(formData, data){
         let response = await upload(formData, data);
-        console.log(response);
-        if(response.code !== null && response.code === 200){
+        if(response != null && response.code !== null && response.code === 200){
             alert("上传成功");
         }else{
             alert("上传失败");
