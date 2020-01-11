@@ -24,6 +24,7 @@ class ExportManage extends React.Component {
         this.getPatientList();
     }
     handleChange(value){
+        console.log(value);
         this.setState({value: value});
     }
 
@@ -71,9 +72,9 @@ class ExportManage extends React.Component {
                                 style={{ width: '100%' }}
                                 placeholder="请选择需要导出数据的人"
                                 allowClear={true}
-                                onChange={(value)=>this.handleChange(value)}>
+                                onChange={(value) => this.handleChange(value)}>
                                 {this.state.patientList.map((item,index) =>
-                                    <Option key={item.no} value={item.no}>{item.xingming}</Option>
+                                    <Option key={item.zhuyuanhao} value={item.zhuyuanhao}>{item.xingming}</Option>
                                 )}
                             </Select>
                         </Form.Item>

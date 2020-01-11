@@ -97,8 +97,9 @@ class UserManage extends React.Component {
     }
     // 编辑病人基本信息
     async editBasicInfo(){
-        console.log(this.state.editBasic);
-        let response = await editBasicInfo(this.state.editBasic);
+        console.log(this.state.basic);
+        let response = await editBasicInfo(this.state.basic);
+        console.log(response);
         if(response != null && response.code !== null && response.code===200){
             alert("修改成功")
         }else{
