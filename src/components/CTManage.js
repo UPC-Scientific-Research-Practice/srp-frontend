@@ -84,11 +84,13 @@ class CTManage extends React.Component {
 
     async upload(formData, data){
         let response = await upload(formData, data);
-        if(response != null && response.code !== null && response.code === 200){
-            alert("上传成功");
-        }else{
-            alert("上传失败");
-        }
+        console.log(response);
+        alert("上传成功");
+        // if(response != null && response.code !== null && response.code === 200){
+        //     alert("上传成功");
+        // }else{
+        //     alert("上传失败");
+        // }
     }
 
     submitUpload = () => {
@@ -98,7 +100,7 @@ class CTManage extends React.Component {
             console.log(item);
             formData.append('file', item);
         });
-
+        console.log(data);
         this.upload(formData, data);
     };
 
@@ -149,7 +151,7 @@ class CTManage extends React.Component {
                             <Form.Item label="姓名" hasFeedback>
                                 <Select defaultValue="1" onChange={(value) => {const arr = value.split(","); this.setState({id:arr[0],name:arr[1]})}}>
                                     {this.state.patientList.map((item, index) =>
-                                        <Option key={item.no} value={item.no+","+item.xingming}>{item.xingming}</Option>)}
+                                        <Option key={item.zhuyuanhao} value={item.zhuyuanhao+","+item.xingming}>{item.xingming}</Option>)}
                                 </Select>
                             </Form.Item>
                             <Form.Item label="文件" hasFeedback>

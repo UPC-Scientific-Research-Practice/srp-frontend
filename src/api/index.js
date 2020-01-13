@@ -108,7 +108,6 @@ export function download(data) {
 }
 
 export function upload(formData, data) {
-
     return ajax({
         method: 'POST',
         url: BASE + "/upload",

@@ -597,7 +597,7 @@ class RecordManage extends React.Component {
                 </div>
                 <div className="table-container" style={{ padding: "10px 0px 0px 0px", height: "100%" }}>
                     <Table
-                        rowKey={record => record.no}
+                        rowKey={record => record.zhuyuanhao}
                         size="small"
                         bordered
                         style={{ height: "100%" }}

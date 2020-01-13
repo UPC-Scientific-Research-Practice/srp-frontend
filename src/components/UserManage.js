@@ -87,7 +87,8 @@ class UserManage extends React.Component {
     }
     // 添加病人
     async addPatient(){
-        let response = await addBasicInfo(this.state.temp);
+        console.log(this.state.basic);
+        let response = await addBasicInfo(this.state.basic);
         if(response != null && response.code != null && response.code === 200){
             alert("添加数据成功");
         }else{
@@ -99,7 +100,6 @@ class UserManage extends React.Component {
     async editBasicInfo(){
         console.log(this.state.basic);
         let response = await editBasicInfo(this.state.basic);
-        console.log(response);
         if(response != null && response.code !== null && response.code===200){
             alert("修改成功")
         }else{
@@ -206,6 +206,9 @@ class UserManage extends React.Component {
                                     }
                                 }/>
                             </Form.Item>
+                            {/*<Form.Item label="出生日期" hasFeedback>*/}
+                            {/*    <Input allowClear placeholder="出生日期" value={this.state.basic.chushengriqi} onChange={this.handleChange.bind(this, "chushengriqi")} />*/}
+                            {/*</Form.Item>*/}
                             <Form.Item label="国籍" hasFeedback>
                                 <Input allowClear placeholder="国籍" value={this.state.basic.guoji} onChange={this.handleChange.bind(this, "guoji")} />
                             </Form.Item>
@@ -247,7 +250,7 @@ class UserManage extends React.Component {
                 </div>
                 <div className="table-container" style={{ padding: "10px 0px 0px 0px", height: "100%" }}>
                     <Table
-                        rowKey={ record => record.no}
+                        rowKey={ record => record.zhuyuanhao}
                         size="small"
                         bordered
                         style={{ height: "100%" }}

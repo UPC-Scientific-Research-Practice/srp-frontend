@@ -92,14 +92,14 @@ const formField = {
     钠: "na",
     钾: "jia",
     氯: "lv",
-    COdi2结合力: "CO2",
+    CO2结合力: "CO2",
 
     尿素: "niaosu",
     肌酐: "jigan",
     尿酸: "niaosuan",
 
-    Tdi3: "Tdi3",
-    T4: "Tdi3",
+    T3: "T3",
+    T4: "T4",
     TSH: "TSH",
     抗甲状腺过氧化物酶抗体: "guoyanghuawumei",
     抗甲状腺球蛋白抗体: "qiudanbai",
